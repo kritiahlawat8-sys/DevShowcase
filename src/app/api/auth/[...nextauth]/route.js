@@ -56,7 +56,7 @@ const handler = NextAuth ({
 
             session.user.role = token.role;
             session.user.tenantID;
-            return sesssion
+            return session
         },
     },
     pages: {
@@ -65,4 +65,4 @@ const handler = NextAuth ({
     secret: process.env.NEXTAUTH_SECRET,
     });
     
-    export { handle as GET, handler as POST };
+    export { handler as GET, handler as POST };
