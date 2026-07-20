@@ -9,6 +9,11 @@ export async function POST (request) {
         const body = await request.json();
         const { name, email, password, role, tenantID, subdomain } = body;
 
+        const finalTenantID =
+  tenantID && tenantID.trim() !== ""
+    ? tenantID
+    : crypto.randomUUID();
+
         if (!name || !email || !password){
             return Response.json(
                 { message: "Nmae, email, and password are required"},
@@ -28,10 +33,10 @@ const normalizedEmail = email.toLowerCase();
     
     const newUser = await User.create({
         name,
-        email,
+        email: normalizedEmail,
         password: hashedPassword,
         role: role || "candidate",
-        tenantID,
+        tenantID: finalTenantID,
         subdomain,
     });
 
@@ -49,9 +54,14 @@ const normalizedEmail = email.toLowerCase();
     );
 } 
 catch (error) {
+    console.error("Signup Error:", error);
+
     return Response.json(
-        {message: "something went wrong", error: error.message},
-        { status:500}
+        {
+            message: "something went wrong",
+            error: error.message,
+        },
+        { status: 500 }
     );
 }
     }

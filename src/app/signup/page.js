@@ -14,7 +14,7 @@ export default function SignupPage() {
     const [error, setError] = useState("");
 
     const handleChange = (e) => {
-        createServerParamsForMetadata({ ...formData, [e.target.name]: e.target.value});
+        setFormData({ ...formData, [e.target.name]: e.target.value});
     };
 
     const handleSubmit = async (e) => {
@@ -22,7 +22,10 @@ export default function SignupPage() {
         setError("");
 
         const res= await fetch ("/api/auth/signup", {
-            method:{ "Content-Type": "application/json"},
+            method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+    },
             body: JSON.stringify(formData),
         });
 
