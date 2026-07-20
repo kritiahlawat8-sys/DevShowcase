@@ -15,6 +15,16 @@ export default function DashboardPage() {
     githubLink: "",
     liveDemoLink: "",
   });
+
+  const [editingId, setEditingId] = useState(null);
+
+const [editProject, setEditProject] = useState({
+  title: "",
+  description: "",
+  techStack: "",
+  githubLink: "",
+  liveDemoLink: "",
+});
   const [profileMsg, setProfileMsg] = useState("");
   const [projectMsg, setProjectMsg] = useState("");
   const [loadingProjects, setLoadingProjects] = useState(true);
@@ -99,6 +109,58 @@ export default function DashboardPage() {
       fetchProjects();
     }
   };
+  const startEditing = (project) => {
+  setEditingId(project._id);
+
+  setEditProject({
+    title: project.title,
+    description: project.description,
+    techStack: project.techStack.join(", "),
+    githubLink: project.githubLink,
+    liveDemoLink: project.liveDemoLink,
+  });
+};
+
+const handleEditChange = (e) => {
+  setEditProject({
+    ...editProject,
+    [e.target.name]: e.target.value,
+  });
+};
+
+const handleUpdateProject = async (e) => {
+  e.preventDefault();
+
+  const payload = {
+    ...editProject,
+    techStack: editProject.techStack
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean),
+  };
+
+  const res = await fetch(`/api/projects/${editingId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (res.ok) {
+    setEditingId(null);
+
+    setEditProject({
+      title: "",
+      description: "",
+      techStack: "",
+      githubLink: "",
+      liveDemoLink: "",
+    });
+
+    fetchProjects();
+  }
+};
 
   if (status === "loading") return <p>Loading...</p>;
   if (!session) return <p>You are not logged in.</p>;
@@ -207,13 +269,14 @@ export default function DashboardPage() {
         {!loadingProjects && projects.length === 0 && <p>No projects yet.</p>}
         {projects.map((p) => (
           <div key={p._id} style={{ border: "1px solid #ccc", padding: "10px", marginBottom: "10px" }}>
-            <h3>{p.title}</h3>
-            <p>{p.description}</p>
-            <p>Tech: {p.techStack?.join(", ")}</p>
-            <button onClick={() => handleDeleteProject(p._id)}>Delete</button>
-          </div>
+    <h3>{p.title}</h3>
+    <p>{p.description}</p>
+    <p>Tech: {p.techStack?.join(", ")}</p>
+    <button onClick={() => handleDeleteProject(p._id)}>Delete</button>
+  </div>
         ))}
       </section>
     </div>
   );
 }
+
