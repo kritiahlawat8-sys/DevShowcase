@@ -1,3 +1,6 @@
+import PortfolioHeader from "@/components/portfolioHeader";
+import ProjectCard from "@/components/projectCard";
+
 async function getPortfolio(tenant) {
   const res = await fetch(
     `http://localhost:3000/api/portfolio/${tenant}`,
@@ -29,74 +32,35 @@ export default async function PortfolioPage({ params }) {
   const { user, projects } = data;
 
   return (
-    <main
-      style={{
-        maxWidth: "900px",
-        margin: "40px auto",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <h1>{user.name}</h1>
+  <main className="min-h-screen bg-gray-100 py-10">
+    <div className="max-w-5xl mx-auto px-6">
 
-      <p>{user.bio}</p>
+      <PortfolioHeader user={user} />
 
-      <p>
-        <strong>GitHub:</strong>{" "}
-        {user.githubUsername || "Not provided"}
-      </p>
+      <section className="mt-10">
+        <h2 className="text-3xl font-bold text-gray-900 mb-6">
+          My Projects
+        </h2>
 
-      <hr />
-
-      <h2>Projects</h2>
-
-      {projects.length === 0 ? (
-        <p>No projects available.</p>
-      ) : (
-        projects.map((project) => (
-          <div
-            key={project._id}
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-              padding: "16px",
-              marginBottom: "20px",
-            }}
-          >
-            <h3>{project.title}</h3>
-
-            <p>{project.description}</p>
-
-            <p>
-              <strong>Tech Stack:</strong>{" "}
-              {project.techStack.join(", ")}
+        {projects.length === 0 ? (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+            <p className="text-gray-500">
+              No projects available yet.
             </p>
-
-            {project.githubLink && (
-              <p>
-                <a
-                  href={project.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  GitHub Repository
-                </a>
-              </p>
-            )}
-
-            {project.liveDemoLink && (
-              <p>
-                <a
-                  href={project.liveDemoLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Live Demo
-                </a>
-              </p>
-            )}
           </div>
-        ))
-      )}
-    </main>
-  );
+        ) : (
+          <div className="grid md:grid-cols-2 gap-6">
+            {projects.map((project) => (
+              <ProjectCard
+                key={project._id}
+                project={project}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+
+    </div>
+  </main>
+);
 }
