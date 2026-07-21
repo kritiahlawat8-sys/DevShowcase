@@ -38,6 +38,34 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
+
+        githubRepos: {
+  type: [
+    {
+      name: String,
+      description: String,
+      url: String,
+      language: String,
+      stars: Number,
+      updatedAt: Date,
+    },
+  ],
+  default: [],
+},
+leetcodeUsername: {
+  type: String,
+  default: "",
+},
+leetcodeStats: {
+  type: {
+    totalSolved: Number,
+    easySolved: Number,
+    mediumSolved: Number,
+    hardSolved: Number,
+    ranking: Number,
+  },
+  default: {},
+},
         // if user haven't configured custom domain
         subdomain: {
             type: String,

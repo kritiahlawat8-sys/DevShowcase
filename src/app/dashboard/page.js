@@ -5,8 +5,12 @@ import { useSession, signOut } from "next-auth/react";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
+  const [githubRepos, setGithubRepos] = useState([]);
+const [leetcodeStats, setLeetcodeStats] = useState(null);
+const [syncMsg, setSyncMsg] = useState("");
+const [syncing, setSyncing] = useState(false);
 
-  const [profile, setProfile] = useState({ name: "", bio: "", githubUsername: "" });
+  const [profile, setProfile] = useState({ name: "", bio: "", githubUsername: "", leetcodeUsername: "" });
   const [projects, setProjects] = useState([]);
   const [newProject, setNewProject] = useState({
     title: "",
@@ -30,15 +34,26 @@ const [editProject, setEditProject] = useState({
   const [loadingProjects, setLoadingProjects] = useState(true);
 
   useEffect(() => {
-    if (session) {
-      setProfile({
-        name: session.user.name || "",
-        bio: session.user.bio || "",
-        githubUsername: session.user.githubUsername || "",
-      });
-      fetchProjects();
-    }
-  }, [session]);
+  if (session) {
+    fetchProfile();
+    fetchProjects();
+  }
+}, [session]);
+
+const fetchProfile = async () => {
+  const res = await fetch("/api/profile");
+  const data = await res.json();
+  if (res.ok) {
+    setProfile({
+      name: data.user.name || "",
+      bio: data.user.bio || "",
+      githubUsername: data.user.githubUsername || "",
+      leetcodeUsername: data.user.leetcodeUsername || "",
+    });
+    setGithubRepos(data.user.githubRepos || []);
+    setLeetcodeStats(data.user.leetcodeStats || null);
+  }
+};
 
   const fetchProjects = async () => {
     setLoadingProjects(true);
@@ -58,6 +73,34 @@ const [editProject, setEditProject] = useState({
     e.preventDefault();
     setProfileMsg("");
 
+    const handleSyncGithub = async () => {
+  setSyncing(true);
+  setSyncMsg("");
+  const res = await fetch("/api/sync/github", { method: "POST" });
+  const data = await res.json();
+  if (res.ok) {
+    setGithubRepos(data.repos);
+    setSyncMsg("GitHub repos synced!");
+  } else {
+    setSyncMsg(data.message);
+  }
+  setSyncing(false);
+};
+
+const handleSyncLeetcode = async () => {
+  setSyncing(true);
+  setSyncMsg("");
+  const res = await fetch("/api/sync/leetcode", { method: "POST" });
+  const data = await res.json();
+  if (res.ok) {
+    setLeetcodeStats(data.stats);
+    setSyncMsg("LeetCode stats synced!");
+  } else {
+    setSyncMsg(data.message);
+  }
+  setSyncing(false);
+};
+
     const res = await fetch("/api/profile", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -67,7 +110,33 @@ const [editProject, setEditProject] = useState({
     const data = await res.json();
     setProfileMsg(res.ok ? "Profile updated" : data.message);
   };
+const handleSyncGithub = async () => {
+  setSyncing(true);
+  setSyncMsg("");
+  const res = await fetch("/api/sync/github", { method: "POST" });
+  const data = await res.json();
+  if (res.ok) {
+    setGithubRepos(data.repos);
+    setSyncMsg("GitHub repos synced!");
+  } else {
+    setSyncMsg(data.message);
+  }
+  setSyncing(false);
+};
 
+const handleSyncLeetcode = async () => {
+  setSyncing(true);
+  setSyncMsg("");
+  const res = await fetch("/api/sync/leetcode", { method: "POST" });
+  const data = await res.json();
+  if (res.ok) {
+    setLeetcodeStats(data.stats);
+    setSyncMsg("LeetCode stats synced!");
+  } else {
+    setSyncMsg(data.message);
+  }
+  setSyncing(false);
+};
   const handleNewProjectChange = (e) => {
     setNewProject({ ...newProject, [e.target.name]: e.target.value });
   };
@@ -205,6 +274,14 @@ const handleUpdateProject = async (e) => {
             onChange={handleProfileChange}
           />
           <br />
+          <input
+  type="text"
+  name="leetcodeUsername"
+  placeholder="LeetCode Username"
+  value={profile.leetcodeUsername}
+  onChange={handleProfileChange}
+/>
+<br />
           <button type="submit">Save Profile</button>
         </form>
         {profileMsg && <p>{profileMsg}</p>}
@@ -276,6 +353,39 @@ const handleUpdateProject = async (e) => {
   </div>
         ))}
       </section>
+      <hr style={{ margin: "20px 0" }} />
+
+<section>
+  <h2>GitHub & LeetCode Sync</h2>
+  <button onClick={handleSyncGithub} disabled={syncing}>
+    {syncing ? "Syncing..." : "Sync GitHub"}
+  </button>{" "}
+  <button onClick={handleSyncLeetcode} disabled={syncing}>
+    {syncing ? "Syncing..." : "Sync LeetCode"}
+  </button>
+  {syncMsg && <p>{syncMsg}</p>}
+
+  <h3>GitHub Repos</h3>
+  {githubRepos.length === 0 && <p>No repos synced yet.</p>}
+  {githubRepos.map((repo, i) => (
+    <div key={i} style={{ border: "1px solid #ccc", padding: "10px", marginBottom: "10px" }}>
+      <h4>{repo.name}</h4>
+      <p>{repo.description}</p>
+      <p>Language: {repo.language} | ⭐ {repo.stars}</p>
+      <a href={repo.url} target="_blank" rel="noopener noreferrer">View on GitHub</a>
+    </div>
+  ))}
+
+  <h3>LeetCode Stats</h3>
+  {!leetcodeStats && <p>No stats synced yet.</p>}
+  {leetcodeStats && (
+    <div style={{ border: "1px solid #ccc", padding: "10px" }}>
+      <p>Total Solved: {leetcodeStats.totalSolved}</p>
+      <p>Easy: {leetcodeStats.easySolved} | Medium: {leetcodeStats.mediumSolved} | Hard: {leetcodeStats.hardSolved}</p>
+      <p>Ranking: {leetcodeStats.ranking}</p>
+    </div>
+  )}
+</section>
     </div>
   );
 }
