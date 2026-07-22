@@ -76,6 +76,11 @@ leetcodeStats: {
             type: String,
             default: "",
         },
+        theme: {
+  type: String,
+  enum: ["minimalist", "dashboard", "cyberpunk", "3d"],
+  default: "minimalist",
+        },
     },
     // createdAT aur UpdatedAT fields automanicly add krta h
     { timestamps: true}

@@ -12,7 +12,7 @@ export async function PUT(request) {
 
     await connectDB();
     const body = await request.json();
-    const { name, bio, githubUsername, leetcodeUsername } = body;
+    const { name, bio, githubUsername, leetcodeUsername, theme } = body;
 
     const updatedUser = await User.findByIdAndUpdate(
       session.user.id,
@@ -21,6 +21,7 @@ export async function PUT(request) {
         ...(bio !== undefined && { bio }),
         ...(githubUsername !== undefined && { githubUsername }),
         ...(leetcodeUsername !== undefined && { leetcodeUsername }),
+        ...(theme !== undefined && { theme }), 
       },
       { new: true }
     ).select("-password");

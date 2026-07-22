@@ -9,7 +9,7 @@ export async function GET(request, { params }) {
     const { tenant } = await params;
 
     const user = await User.findOne({ tenantID: tenant }).select(
-      "name bio githubUsername tenantID"
+      "name bio githubUsername tenantID theme"
     );
 
     if (!user) {
