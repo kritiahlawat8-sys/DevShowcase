@@ -74,35 +74,57 @@ Navigate to the signup page, create a candidate account, and you'll be redirecte
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
-​```text
+### 1️⃣ App & API Routes
+
+```text
 src/
-├── app/
-│   ├── api/
-│   │   ├── profile/route.js
-│   │   ├── projects/route.js
-│   │   ├── portfolio/[tenant]/route.js
-│   │   └── sync/
-│   │       ├── github/route.js
-│   │       └── leetcode/route.js
-│   ├── dashboard/page.js
-│   └── [tenant]/page.js
-├── components/
-│   ├── portfolioHeader.jsx
-│   ├── projectCard.jsx
-│   └── themes/
-│       ├── MinimalistTheme.jsx
-│       ├── DashboardTheme.jsx
-│       ├── CyberpunkTheme.jsx
-│       └── ThreeDTheme.jsx
-└── lib/
-    ├── db.js
-    ├── authOptions.js
-    └── models/
-        ├── user.js
-        └── project.js
-​```
+└── app/
+    ├── api/
+    │   ├── profile/
+    │   │   └── route.js
+    │   ├── projects/
+    │   │   └── route.js
+    │   ├── portfolio/
+    │   │   └── [tenant]/
+    │   │       └── route.js
+    │   └── sync/
+    │       ├── github/
+    │       │   └── route.js
+    │       └── leetcode/
+    │           └── route.js
+    ├── dashboard/
+    │   └── page.js
+    └── [tenant]/
+        └── page.js
+```
+
+### 2️⃣ Components & Themes
+
+```text
+src/
+└── components/
+    ├── PortfolioHeader.jsx
+    ├── ProjectCard.jsx
+    └── themes/
+        ├── MinimalistTheme.jsx
+        ├── DashboardTheme.jsx
+        ├── CyberpunkTheme.jsx
+        └── ThreeDTheme.jsx
+```
+
+### 3️⃣ Database & Models
+
+```text
+src/
+├── lib/
+│   ├── db.js
+│   └── authOptions.js
+└── models/
+    ├── user.js
+    └── project.js
+```
 ---
 
 # 📷 Screenshots
