@@ -159,7 +159,7 @@ src/
 The project is deployed on **Vercel** for live access.
 
 ### Live Demo
-🔗 https://live-campus-geofencing-tracker.vercel.app
+🔗 https://dev-showcase-git-main-mark-042.vercel.app
 
 ---
 
