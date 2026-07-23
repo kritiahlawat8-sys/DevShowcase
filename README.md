@@ -76,6 +76,7 @@ Navigate to the signup page, create a candidate account, and you'll be redirecte
 
 ## Project Structure
 
+​```
 src/
 ├── app/
 │ ├── api/
@@ -102,6 +103,7 @@ src/
 ├── user.js
 └── project.js
 
+​```
 ---
 
 # 📷 Screenshots
