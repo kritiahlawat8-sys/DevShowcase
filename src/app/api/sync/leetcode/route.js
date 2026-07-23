@@ -15,7 +15,7 @@ export async function POST(request) {
     const user = await User.findById(session.user.id);
     if (!user || !user.leetcodeUsername) {
       return Response.json(
-        { message: "LeetCode username set nahi hai profile me" },
+        { message: "LeetCode username is not set in your profile." },
         { status: 400 }
       );
     }
@@ -26,7 +26,7 @@ export async function POST(request) {
 
     if (!lcRes.ok) {
       return Response.json(
-        { message: "LeetCode username galat hai ya API down hai" },
+        { message: "Invalid LeetCode username or the API is currently unavailable." },
         { status: 404 }
       );
     }
@@ -34,7 +34,7 @@ export async function POST(request) {
     const data = await lcRes.json();
 
     if (data.status === "error") {
-      return Response.json({ message: "LeetCode user nahi mila" }, { status: 404 });
+      return Response.json({ message: "LeetCode user not found." }, { status: 404 });
     }
 
     user.leetcodeStats = {
