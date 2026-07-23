@@ -259,7 +259,7 @@ export default function DashboardPage() {
 
             {tenantID && (
               <a
-                href={`/${tenantID}`}
+                href={`/portfolio/${tenantID}`}
                 target="_blank"
                 className="text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-center"
               >
