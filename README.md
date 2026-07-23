@@ -76,7 +76,7 @@ Navigate to the signup page, create a candidate account, and you'll be redirecte
 
 ## Project Structure
 
-​```
+​```text
 src/
 ├── app/
 │   ├── api/
@@ -134,4 +134,5 @@ src/
 
 ## Author
 Kriti Ahlawat 
+
 Submitted to: Mr Sourav Singh
