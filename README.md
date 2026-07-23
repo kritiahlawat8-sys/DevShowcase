@@ -130,7 +130,7 @@ src/
 # 📷 Screenshots
 
 ### Login Page
-<img width="221" height="168" alt="image" src="https://github.com/user-attachments/assets/53f60e82-52af-45fc-867c-213eaa34a340" />
+<img width="614" height="448" alt="image" src="https://github.com/user-attachments/assets/caec66f5-2e8a-4109-9fb0-9ba94a0171eb" />
 
 ### Dashboard
 <img width="869" height="690" alt="image" src="https://github.com/user-attachments/assets/47646e7e-65b8-49a2-801a-05cab85346ba" />
@@ -151,6 +151,15 @@ src/
 
 **Interactive 3D**
 <img width="1091" height="812" alt="image" src="https://github.com/user-attachments/assets/e8b47563-cea5-4b04-97f9-4a51895b0f08" />
+
+---
+
+## 🚀 Deployment
+
+The project is deployed on **Vercel** for live access.
+
+### Live Demo
+🔗 https://live-campus-geofencing-tracker.vercel.app
 
 ---
 
