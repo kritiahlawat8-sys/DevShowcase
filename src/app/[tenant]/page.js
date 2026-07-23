@@ -2,11 +2,19 @@ import MinimalistTheme from "@/components/themes/MinimalistTheme";
 import DashboardTheme from "@/components/themes/DashboardTheme";
 import CyberpunkTheme from "@/components/themes/CyberpunkTheme";
 import ThreeDTheme from "@/components/themes/ThreeDTheme";
+import { headers } from "next/headers";
 
 async function getPortfolio(tenant) {
+  const headersList = await headers();
+  const host = headersList.get("host");
+  const protocol =
+    process.env.NODE_ENV === "development" ? "http" : "https";
+
   const res = await fetch(
-    `http://localhost:3000/api/portfolio/${tenant}`,
-    { cache: "no-store" }
+    `${protocol}://${host}/api/portfolio/${tenant}`,
+    {
+      cache: "no-store",
+    }
   );
 
   if (!res.ok) {
@@ -17,7 +25,7 @@ async function getPortfolio(tenant) {
 }
 
 export default async function PortfolioPage({ params }) {
-  const { tenant } = await params;
+  const { tenant } = params;
 
   const data = await getPortfolio(tenant);
 
