@@ -79,30 +79,29 @@ Navigate to the signup page, create a candidate account, and you'll be redirecte
 ​```
 src/
 ├── app/
-│ ├── api/
-│ │ ├── profile/route.js
-│ │ ├── projects/route.js
-│ │ ├── portfolio/[tenant]/route.js
-│ │ └── sync/
-│ │ ├── github/route.js
-│ │ └── leetcode/route.js
-│ ├── dashboard/page.js
-│ └── [tenant]/page.js
+│   ├── api/
+│   │   ├── profile/route.js
+│   │   ├── projects/route.js
+│   │   ├── portfolio/[tenant]/route.js
+│   │   └── sync/
+│   │       ├── github/route.js
+│   │       └── leetcode/route.js
+│   ├── dashboard/page.js
+│   └── [tenant]/page.js
 ├── components/
-│ ├── portfolioHeader.jsx
-│ ├── projectCard.jsx
-│ └── themes/
-│ ├── MinimalistTheme.jsx
-│ ├── DashboardTheme.jsx
-│ ├── CyberpunkTheme.jsx
-│ └── ThreeDTheme.jsx
+│   ├── portfolioHeader.jsx
+│   ├── projectCard.jsx
+│   └── themes/
+│       ├── MinimalistTheme.jsx
+│       ├── DashboardTheme.jsx
+│       ├── CyberpunkTheme.jsx
+│       └── ThreeDTheme.jsx
 └── lib/
-├── db.js
-├── authOptions.js
-└── models/
-├── user.js
-└── project.js
-
+    ├── db.js
+    ├── authOptions.js
+    └── models/
+        ├── user.js
+        └── project.js
 ​```
 ---
 
